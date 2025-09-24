@@ -14,35 +14,7 @@ public class drive extends LinearOpMode
     public DcMotor LeftBackDrive = null;
     public DcMotor LeftFrontDrive = null;
 
-    public void setDrivePower(double leftFront, double leftRear, double rightFront, double rightRear) {
-        // Output the values to the motor drives.
-        LeftFrontDrive.setPower(leftFront);
-        LeftBackDrive.setPower(leftRear);
-        RightFrontDrive.setPower(rightFront);
-        RightBackDrive.setPower(rightRear);
-    }
-    public void mecanumDrive(double forward, double strafe, double turn) {
-        // Combine forward, strafe, and turn for blended motion.
-        double LeftFrontDrive = forward + strafe + turn;
-        double LeftBackDrive = forward - strafe + turn;
-        double RightFrontDrive = forward - strafe - turn;
-        double RightBackDrive = forward + strafe - turn;
 
-        // Scale the values so none of them exceed +/- 1.0
-        double max1 = Math.max(Math.abs(LeftFrontDrive),Math.abs(LeftBackDrive));
-        double max2 = Math.max(Math.abs(RightFrontDrive), Math.abs(RightBackDrive));
-        double max = Math.max(Math.abs(max1), Math.abs(max2));
-        if (max > 1.0)
-        {
-            LeftFrontDrive /= max;
-            LeftBackDrive /= max;
-            RightFrontDrive /= max;
-            RightBackDrive /= max;
-        }
-
-        // with the new scaled values, send power to the motors.
-        setDrivePower(LeftFrontDrive, LeftBackDrive, RightFrontDrive, RightBackDrive);
-    }
 
 
 
@@ -65,6 +37,8 @@ public class drive extends LinearOpMode
         waitForStart();
 
         while (opModeIsActive()) {
+
+
 
 
 

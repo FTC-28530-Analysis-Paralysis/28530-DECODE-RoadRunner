@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@TeleOp(name="ELIJAH OPMODE??")
-public class drive extends LinearOpMode {
+@TeleOp(name="Elijah Strafer")
+public class ElijahStrafer extends LinearOpMode {
     public DcMotor RightBackDrive = null;
     public DcMotor RightFrontDrive = null;
     public DcMotor LeftBackDrive = null;
@@ -40,15 +40,15 @@ public class drive extends LinearOpMode {
         while (opModeIsActive()) {
 
             // Get joystick values
-            double drive = -gamepad1.right_stick_y;  // Controls forward and backward movement
+            double drive = -gamepad1.left_stick_y;  // Controls forward and backward movement
             double strafe = gamepad1.left_stick_x;   // Controls side-to-side movement
             double turn = gamepad1.right_stick_x;    // Controls turning/rotation
 
             // Combine the joystick inputs to calculate the power for each wheel
             double leftFrontPower = drive + strafe + turn;
-            double rightFrontPower = drive - strafe - turn;
+            double rightFrontPower = drive + strafe - turn;
             double leftBackPower = drive - strafe + turn;
-            double rightBackPower = drive + strafe - turn;
+            double rightBackPower = drive - strafe - turn;
 
             // Normalize the wheel speeds to be between -1 and 1
             double max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));

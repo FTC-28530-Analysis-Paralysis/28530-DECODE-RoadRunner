@@ -6,10 +6,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name="Elijah Strafer")
 public class ElijahStrafer extends LinearOpMode {
-    public DcMotor RightBackDrive = null;
-    public DcMotor RightFrontDrive = null;
-    public DcMotor LeftBackDrive = null;
-    public DcMotor LeftFrontDrive = null;
+    public DcMotor rightBackDrive = null;
+    public DcMotor rightFrontDrive = null;
+    public DcMotor leftBackDrive = null;
+    public DcMotor leftFrontDrive = null;
 
     @Override
     public void runOpMode() {
@@ -17,21 +17,21 @@ public class ElijahStrafer extends LinearOpMode {
         telemetry.update();
 
         // Hardware mapping
-        RightBackDrive = hardwareMap.get(DcMotor.class, "RightBackDrive");
-        LeftBackDrive = hardwareMap.get(DcMotor.class, "LeftBackDrive");
-        LeftFrontDrive = hardwareMap.get(DcMotor.class, "LeftFrontDrive");
-        RightFrontDrive = hardwareMap.get(DcMotor.class, "RightFrontDrive");
+        rightBackDrive = hardwareMap.get(DcMotor.class, "rightBackDrive");
+        leftBackDrive = hardwareMap.get(DcMotor.class, "leftBackDrive");
+        leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFrontDrive");
+        rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFrontDrive");
 
         // Set motor directions
-        RightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        RightBackDrive.setDirection(DcMotor.Direction.FORWARD);
-        LeftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        LeftBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
 
-        LeftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        RightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        LeftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        RightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Wait for the driver to press START
         waitForStart();
@@ -46,9 +46,9 @@ public class ElijahStrafer extends LinearOpMode {
 
             // Combine the joystick inputs to calculate the power for each wheel
             double leftFrontPower = drive + strafe + turn;
-            double rightFrontPower = drive + strafe - turn;
+            double rightFrontPower = drive - strafe - turn;
             double leftBackPower = drive - strafe + turn;
-            double rightBackPower = drive - strafe - turn;
+            double rightBackPower = drive + strafe - turn;
 
             // Normalize the wheel speeds to be between -1 and 1
             double max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
@@ -63,10 +63,10 @@ public class ElijahStrafer extends LinearOpMode {
             }
 
             // Send the calculated power to the motors
-            LeftFrontDrive.setPower(leftFrontPower);
-            RightFrontDrive.setPower(rightFrontPower);
-            LeftBackDrive.setPower(leftBackPower);
-            RightBackDrive.setPower(rightBackPower);
+            leftFrontDrive.setPower(leftFrontPower);
+            rightFrontDrive.setPower(rightFrontPower);
+            leftBackDrive.setPower(leftBackPower);
+            rightBackDrive.setPower(rightBackPower);
 
             // Show the joystick and wheel power values on the Driver Hub screen
             telemetry.addData("Status", "Running");

@@ -71,9 +71,9 @@ public class Drive extends LinearOpMode
         while (opModeIsActive() && leftFrontDrive.isBusy() && leftBackDrive.isBusy())   //leftMotor.getCurrentPosition() < leftMotor.getTargetPosition())
         {
             telemetry.addData("encoder-fwd-left", leftFrontDrive.getCurrentPosition() + "  busy=" + leftFrontDrive.isBusy());
-            telemetry.addData("encoder-bwd-right", leftBackDrive.getCurrentPosition() + "  busy=" + leftBackDrive.isBusy());
+            telemetry.addData("encoder-bwd-Left", leftBackDrive.getCurrentPosition() + "  busy=" + leftBackDrive.isBusy());
             telemetry.addData("encoder-fwd-right", rightFrontDrive.getCurrentPosition() + "  busy=" + rightFrontDrive.isBusy());
-            telemetry.addData("encoder-bwd-left", rightBackDrive.getCurrentPosition() + "  busy=" + rightBackDrive.isBusy());
+            telemetry.addData("encoder-bwd-right", rightBackDrive.getCurrentPosition() + "  busy=" + rightBackDrive.isBusy());
             telemetry.update();
             idle();
         }
@@ -94,9 +94,9 @@ public class Drive extends LinearOpMode
         while (opModeIsActive() && getRuntime() < 5)
         {
             telemetry.addData("encoder-fwd-left-end", leftFrontDrive.getCurrentPosition());
-            telemetry.addData("encoder-bwd-right-end", leftBackDrive.getCurrentPosition());
+            telemetry.addData("encoder-bwd-left-end", leftBackDrive.getCurrentPosition());
             telemetry.addData("encoder-fwd-right-end", rightFrontDrive.getCurrentPosition());
-            telemetry.addData("encoder-bwd-left-end", rightBackDrive.getCurrentPosition());
+            telemetry.addData("encoder-bwd-right-end", rightBackDrive.getCurrentPosition());
             telemetry.update();
             idle();
         }
@@ -123,7 +123,7 @@ public class Drive extends LinearOpMode
 
         while (opModeIsActive() && leftFrontDrive.getCurrentPosition() > leftFrontDrive.getTargetPosition() && leftBackDrive.getCurrentPosition() > leftBackDrive.getTargetPosition())
         {
-            telemetry.addData("encoder-back-left", leftFrontDrive.getCurrentPosition());
+            telemetry.addData("encoder-front-left", leftFrontDrive.getCurrentPosition());
             telemetry.addData("encoder-back-right", leftBackDrive.getCurrentPosition());
             telemetry.addData("encoder-back-left", rightBackDrive.getCurrentPosition());
             telemetry.addData("encoder-back-right", rightFrontDrive.getCurrentPosition());

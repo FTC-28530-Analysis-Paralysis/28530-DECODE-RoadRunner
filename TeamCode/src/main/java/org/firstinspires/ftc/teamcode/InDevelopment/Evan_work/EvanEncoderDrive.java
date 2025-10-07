@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Autonomous(name="Drive Encoder Evan", group="Exercises")
-//@Disabled
+///@Disabled
 public class EvanEncoderDrive extends LinearOpMode
 {
     DcMotor rightBackDrive;

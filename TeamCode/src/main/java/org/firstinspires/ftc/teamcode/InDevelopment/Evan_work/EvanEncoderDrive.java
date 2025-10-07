@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Autonomous(name="Drive Encoder Evan", group="Exercises")
 //@Disabled
-public class Drive extends LinearOpMode
+public class EvanEncoderDrive extends LinearOpMode
 {
     DcMotor rightBackDrive;
     DcMotor rightFrontDrive;
@@ -35,10 +35,10 @@ public class Drive extends LinearOpMode
         rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // set motors to run forward for 5000 encoder counts.
-        leftBackDrive.setTargetPosition(5000);
-        leftFrontDrive.setTargetPosition(5000);
-        rightBackDrive.setTargetPosition(5000);
-        rightFrontDrive.setTargetPosition(5000);
+        leftBackDrive.setTargetPosition(1440);
+        leftFrontDrive.setTargetPosition(1440);
+        rightBackDrive.setTargetPosition(1440);
+        rightFrontDrive.setTargetPosition(1440);
 
 
         // set motors to run to target encoder position and stop with brakes on.
@@ -126,7 +126,7 @@ public class Drive extends LinearOpMode
             telemetry.addData("encoder-front-left", leftFrontDrive.getCurrentPosition());
             telemetry.addData("encoder-back-right", leftBackDrive.getCurrentPosition());
             telemetry.addData("encoder-back-left", rightBackDrive.getCurrentPosition());
-            telemetry.addData("encoder-back-right", rightFrontDrive.getCurrentPosition());
+            telemetry.addData("encoder-front-right", rightFrontDrive.getCurrentPosition());
             telemetry.update();
             idle();
         }

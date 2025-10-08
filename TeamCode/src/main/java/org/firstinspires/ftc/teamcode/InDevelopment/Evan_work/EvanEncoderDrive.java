@@ -124,8 +124,8 @@ public class EvanEncoderDrive extends LinearOpMode
         while (opModeIsActive() && leftFrontDrive.getCurrentPosition() > leftFrontDrive.getTargetPosition() && leftBackDrive.getCurrentPosition() > leftBackDrive.getTargetPosition())
         {
             telemetry.addData("encoder-front-left", leftFrontDrive.getCurrentPosition());
-            telemetry.addData("encoder-back-right", leftBackDrive.getCurrentPosition());
-            telemetry.addData("encoder-back-left", rightBackDrive.getCurrentPosition());
+            telemetry.addData("encoder-back-left", leftBackDrive.getCurrentPosition());
+            telemetry.addData("encoder-back-right", rightBackDrive.getCurrentPosition());
             telemetry.addData("encoder-front-right", rightFrontDrive.getCurrentPosition());
             telemetry.update();
             idle();
@@ -145,8 +145,8 @@ public class EvanEncoderDrive extends LinearOpMode
         while (opModeIsActive() && getRuntime() < 5)
         {
             telemetry.addData("encoder-front-left-end", leftFrontDrive.getCurrentPosition());
-            telemetry.addData("encoder-back-right-end", leftBackDrive.getCurrentPosition());
-            telemetry.addData("encoder-front-left-end", rightFrontDrive.getCurrentPosition());
+            telemetry.addData("encoder-back-left-end", leftBackDrive.getCurrentPosition());
+            telemetry.addData("encoder-front-right-end", rightFrontDrive.getCurrentPosition());
             telemetry.addData("encoder-back-right-end", rightBackDrive.getCurrentPosition());
             telemetry.update();
             idle();

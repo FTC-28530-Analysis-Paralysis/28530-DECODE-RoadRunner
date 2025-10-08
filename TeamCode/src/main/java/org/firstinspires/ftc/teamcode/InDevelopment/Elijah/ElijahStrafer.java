@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.InDevelopment.Elijah;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp(name="Elijah Strafer")
 public class ElijahStrafer extends LinearOpMode {
@@ -10,6 +12,10 @@ public class ElijahStrafer extends LinearOpMode {
     public DcMotor rightFrontDrive = null;
     public DcMotor leftBackDrive = null;
     public DcMotor leftFrontDrive = null;
+    public DcMotor leftFlywheel = null;
+    public DcMotor rightFlywheel = null;
+
+
 
     @Override
     public void runOpMode() {
@@ -21,8 +27,12 @@ public class ElijahStrafer extends LinearOpMode {
         leftBackDrive = hardwareMap.get(DcMotor.class, "leftBackDrive");
         leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFrontDrive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFrontDrive");
+        leftFlywheel = hardwareMap.get(DcMotor.class, "leftFlywheel");
+        rightFlywheel = hardwareMap.get(DcMotorEx.class, "rightFlywheel");
 
         // Set motor directions
+        rightFlywheel.setDirection(DcMotor.Direction.FORWARD);
+        leftFlywheel.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -43,6 +53,10 @@ public class ElijahStrafer extends LinearOpMode {
             double drive = -gamepad1.left_stick_y;  // Controls forward and backward movement
             double strafe = gamepad1.left_stick_x;   // Controls side-to-side movement
             double turn = gamepad1.right_stick_x;    // Controls turning/rotation
+            double  power = gamepad1.right_trigger;
+
+            rightFlywheel.setPower(power);
+            leftFlywheel.setPower(power);
 
             // Combine the joystick inputs to calculate the power for each wheel
             double leftFrontPower = drive + strafe + turn;
@@ -67,6 +81,12 @@ public class ElijahStrafer extends LinearOpMode {
             rightFrontDrive.setPower(rightFrontPower);
             leftBackDrive.setPower(leftBackPower);
             rightBackDrive.setPower(rightBackPower);
+
+
+
+
+
+
 
             // Show the joystick and wheel power values on the Driver Hub screen
             telemetry.addData("Status", "Running");

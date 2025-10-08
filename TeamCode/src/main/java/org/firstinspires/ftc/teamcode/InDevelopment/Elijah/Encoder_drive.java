@@ -35,10 +35,10 @@ public class Encoder_drive extends LinearOpMode {
         rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
-        leftBackDrive.setTargetPosition(5000);
-        leftFrontDrive.setTargetPosition(5000);
-        rightBackDrive.setTargetPosition(5000);
-        rightFrontDrive.setTargetPosition(5000);
+        leftBackDrive.setTargetPosition(50000);
+        leftFrontDrive.setTargetPosition(50000);
+        rightBackDrive.setTargetPosition(50000);
+        rightFrontDrive.setTargetPosition(50000);
 
 
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -57,6 +57,39 @@ public class Encoder_drive extends LinearOpMode {
         leftFrontDrive.setPower(.25);
         rightFrontDrive.setPower(.25);
         rightBackDrive.setPower(.25);
+
+
+        rightFrontDrive.setPower(0);
+        rightBackDrive.setPower(0);
+        leftFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+
+
+
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        rightFrontDrive.setTargetPosition(0);
+        rightBackDrive.setTargetPosition(0);
+        leftFrontDrive.setTargetPosition(0);
+        leftBackDrive.setTargetPosition(0);
+
+        rightFrontDrive.setPower(-.25);
+        rightBackDrive.setPower(-.25);
+        leftFrontDrive.setPower(-.25);
+        leftBackDrive.setPower(-.25);
+
+
+
+        rightFrontDrive.setPower(0);
+        rightBackDrive.setPower(0);
+        leftFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+
+
+
 
     }
 }

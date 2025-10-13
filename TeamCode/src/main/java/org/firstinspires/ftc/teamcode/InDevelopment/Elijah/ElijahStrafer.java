@@ -4,9 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name="Elijah Strafer")
+@TeleOp(name="Elijah Strafer with shooters")
 public class ElijahStrafer extends LinearOpMode {
     public DcMotor rightBackDrive = null;
     public DcMotor rightFrontDrive = null;
@@ -14,8 +14,9 @@ public class ElijahStrafer extends LinearOpMode {
     public DcMotor leftFrontDrive = null;
     public DcMotor leftFlywheel = null;
     public DcMotor rightFlywheel = null;
+    public Servo   Release = null;
 
-
+    public Servo activeIntake = null;
 
     @Override
     public void runOpMode() {
@@ -29,9 +30,11 @@ public class ElijahStrafer extends LinearOpMode {
         rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFrontDrive");
         leftFlywheel = hardwareMap.get(DcMotor.class, "leftFlywheel");
         rightFlywheel = hardwareMap.get(DcMotorEx.class, "rightFlywheel");
+        Release =  hardwareMap.get(Servo.class, "Release");
+        activeIntake = hardwareMap.get(Servo.class, "activeIntake");
 
         // Set motor directions
-        rightFlywheel.setDirection(DcMotor.Direction.FORWARD);
+        rightFlywheel.setDirection(DcMotor.Direction.REVERSE);
         leftFlywheel.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -53,12 +56,16 @@ public class ElijahStrafer extends LinearOpMode {
             double drive = -gamepad1.left_stick_y;  // Controls forward and backward movement
             double strafe = gamepad1.left_stick_x;   // Controls side-to-side movement
             double turn = gamepad1.right_stick_x;    // Controls turning/rotation
-            double  power = gamepad1.right_trigger;
+            double intake = gamepad1.left_trigger;
+            double wounduppower = gamepad1.right_bumper;
+            double releasepower = gamepad1.right_trigger;
 
-            rightFlywheel.setPower(power);
-            leftFlywheel.setPower(power);
+            // shooter wheel power
+            rightFlywheel.setPower(wounduppower);
+            leftFlywheel.setPower(wounduppower);
 
-            // Combine the joystick inputs to calculate the power for each wheel
+
+            // Combine the joystick inputs to calculate the roundupower for each wheel
             double leftFrontPower = drive + strafe + turn;
             double rightFrontPower = drive - strafe - turn;
             double leftBackPower = drive - strafe + turn;
@@ -76,7 +83,7 @@ public class ElijahStrafer extends LinearOpMode {
                 rightBackPower /= max;
             }
 
-            // Send the calculated power to the motors
+            // Send the calculated roundupower to the motors
             leftFrontDrive.setPower(leftFrontPower);
             rightFrontDrive.setPower(rightFrontPower);
             leftBackDrive.setPower(leftBackPower);
@@ -88,7 +95,7 @@ public class ElijahStrafer extends LinearOpMode {
 
 
 
-            // Show the joystick and wheel power values on the Driver Hub screen
+            // Show the joystick and wheel roundupower values on the Driver Hub screen
             telemetry.addData("Status", "Running");
             telemetry.addData("Drive (Fwd/Rev)", "%.2f", drive);
             telemetry.addData("Strafe (Side)", "%.2f", strafe);

@@ -1,25 +1,23 @@
-package org.firstinspires.ftc.teamcode.InDevelopment.Elijah;
+package org.firstinspires.ftc.teamcode.InDevelopment;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-@TeleOp(name="Elijah Strafer with shooters")
-public class ElijahStrafer extends LinearOpMode {
+@TeleOp(name=" Strafer with shooters")
+public class DriveWithFlyWheel extends LinearOpMode {
     public DcMotor rightBackDrive = null;
     public DcMotor rightFrontDrive = null;
     public DcMotor leftBackDrive = null;
     public DcMotor leftFrontDrive = null;
-    public DcMotor leftFlywheel = null;
-    public DcMotor rightFlywheel = null;
-    public Servo   Release = null;
-
-    public Servo   BallTransfer = null;
-
-    public CRServo activeIntake = null;
+    public DcMotorEx leftFlywheel = null;
+    public DcMotorEx rightFlywheel = null;
+    public double leftBumperLastTime, rightBumperLastTime = 0;
+    public static double MAX_SHOOTER_SPEED = 6000;
+    double shooterSpeed = 3000;
+    public boolean shootersOn = false;
+    public boolean aButtonPressed = false;
 
     @Override
     public void runOpMode() {
@@ -33,13 +31,9 @@ public class ElijahStrafer extends LinearOpMode {
         leftBackDrive = hardwareMap.get(DcMotor.class, "leftBackDrive");
         leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFrontDrive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFrontDrive");
-        leftFlywheel = hardwareMap.get(DcMotor.class, "leftFlywheel");
-        rightFlywheel = hardwareMap.get(DcMotor.class, "rightFlywheel");
+        leftFlywheel = hardwareMap.get(DcMotorEx.class, "leftFlywheel");
+        rightFlywheel = hardwareMap.get(DcMotorEx.class, "rightFlywheel");
 
-        /// servos
-        Release =  hardwareMap.get(Servo.class, "release");
-        activeIntake = hardwareMap.get(CRServo.class, "activeIntake");
-        BallTransfer = hardwareMap.get(Servo.class, "ballTransfer");
 
         // Set motor directions
         rightFlywheel.setDirection(DcMotor.Direction.REVERSE);
@@ -64,19 +58,43 @@ public class ElijahStrafer extends LinearOpMode {
             double drive = -gamepad1.left_stick_y;  // Controls forward and backward movement
             double strafe = gamepad1.left_stick_x;   // Controls side-to-side movement
             double turn = gamepad1.right_stick_x;    // Controls turning/rotation
-            double intake = gamepad1.left_trigger;
-            double woundUpPower = gamepad1.left_trigger;
-            double releasePosition = gamepad1.right_trigger;
+            double woundUpPower = gamepad1.right_trigger;
 
+
+            // shooter speed increment based on how long the bumpers
+            // has been pressed
+            if (gamepad1.right_bumper) {
+                if (getRuntime() - rightBumperLastTime > .075) {
+                    if (shooterSpeed < MAX_SHOOTER_SPEED) shooterSpeed += 100;
+                    rightBumperLastTime = getRuntime();
+                }
+            }
+
+            else if (gamepad1.left_bumper) {
+                if (getRuntime() - leftBumperLastTime > .075) {
+                    if (shooterSpeed > 0) shooterSpeed -= 100;
+                    leftBumperLastTime = getRuntime();
+                }
+            }
+
+            if(gamepad1.a){
+                if (!aButtonPressed)
+                {
+                   aButtonPressed = true;
+                    shootersOn = !shootersOn;
+                }
+            } else aButtonPressed = false;
+
+            if (shootersOn) {
+                rightFlywheel.setVelocity(shooterSpeed * 28 / 60); // goBilda yellow jacket 6000rpm motor reads 28 ticks/rev, convert from rev/minute to rev/sec
+                leftFlywheel.setVelocity(shooterSpeed * 28 / 60);
+            }
 
             // shooter wheel power
-            rightFlywheel.setPower(woundUpPower);
-            leftFlywheel.setPower(woundUpPower);
-            // release
-            Release.setPosition(releasePosition);
-            //intake
+//            rightFlywheel.setPower(woundUpPower);
+//            leftFlywheel.setPower(woundUpPower);
 
-            // Combine the joystick inputs to calculate the power for each wheel
+            // Combine the joystick inputs to calculate the roundupower for each wheel
             double leftFrontPower = drive + strafe + turn;
             double rightFrontPower = drive - strafe - turn;
             double leftBackPower = drive - strafe + turn;
@@ -94,25 +112,22 @@ public class ElijahStrafer extends LinearOpMode {
                 rightBackPower /= max;
             }
 
-            // Send the calculated to the motors
+            // Send the calculated power to the motors
             leftFrontDrive.setPower(leftFrontPower);
             rightFrontDrive.setPower(rightFrontPower);
             leftBackDrive.setPower(leftBackPower);
             rightBackDrive.setPower(rightBackPower);
 
-
-
-
-
-
-
-            // Show the joystick and wheel roundupower values on the Driver Hub screen
+            // Show the joystick and wheel power values on the Driver Hub screen
             telemetry.addData("Status", "Running");
             telemetry.addData("Drive (Fwd/Rev)", "%.2f", drive);
             telemetry.addData("Strafe (Side)", "%.2f", strafe);
             telemetry.addData("Turn (Rotate)", "%.2f", turn);
             telemetry.addData("Front left/Right Power", "%.2f, %.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right Power", "%.2f, %.2f", leftBackPower, rightBackPower);
+            telemetry.addData("Target Flywheel Speed", "%4f", shooterSpeed);
+            telemetry.addData("Left/Right Flywheel Speed", "%.4f, %.4f", leftFlywheel.getVelocity() / 28 * 60, rightFlywheel.getVelocity() / 28 * 60);
+
             telemetry.update();
 
         }

@@ -58,7 +58,7 @@ public class DriveWithFlyWheel extends LinearOpMode {
             double drive = -gamepad1.left_stick_y;  // Controls forward and backward movement
             double strafe = gamepad1.left_stick_x;   // Controls side-to-side movement
             double turn = gamepad1.right_stick_x;    // Controls turning/rotation
-            double woundUpPower = gamepad1.right_trigger;
+           // double woundUpPower = gamepad1.right_trigger;
 
 
             // shooter speed increment based on how long the bumpers
@@ -88,6 +88,9 @@ public class DriveWithFlyWheel extends LinearOpMode {
             if (shootersOn) {
                 rightFlywheel.setVelocity(shooterSpeed * 28 / 60); // goBilda yellow jacket 6000rpm motor reads 28 ticks/rev, convert from rev/minute to rev/sec
                 leftFlywheel.setVelocity(shooterSpeed * 28 / 60);
+            }else {
+                rightFlywheel.setVelocity(0);
+                leftFlywheel.setVelocity(0);
             }
 
             // shooter wheel power
@@ -125,8 +128,9 @@ public class DriveWithFlyWheel extends LinearOpMode {
             telemetry.addData("Turn (Rotate)", "%.2f", turn);
             telemetry.addData("Front left/Right Power", "%.2f, %.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right Power", "%.2f, %.2f", leftBackPower, rightBackPower);
+            telemetry.addData("Flywheels ", shootersOn? "ON": "OFF");
             telemetry.addData("Target Flywheel Speed", "%4f", shooterSpeed);
-            telemetry.addData("Left/Right Flywheel Speed", "%.4f, %.4f", leftFlywheel.getVelocity() / 28 * 60, rightFlywheel.getVelocity() / 28 * 60);
+            telemetry.addData("Left/Right Flywheel Speed", "%.0f, %.0f", leftFlywheel.getVelocity() / 28 * 60, rightFlywheel.getVelocity() / 28 * 60);
 
             telemetry.update();
 

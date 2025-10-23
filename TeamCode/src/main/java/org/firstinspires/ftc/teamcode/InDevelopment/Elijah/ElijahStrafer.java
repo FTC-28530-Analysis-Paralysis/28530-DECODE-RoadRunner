@@ -19,7 +19,8 @@ public class ElijahStrafer extends LinearOpMode {
     public DcMotorEx rightFlywheel = null;
     public CRServo releaseServo = null;
     public Servo   BallTransfer = null;
-    public DcMotor activeIntake = null;
+    public DcMotor leftActiveIntake = null;
+    public DcMotor rightActiveIntake = null;
     public double leftBumperLastTime, rightBumperLastTime = 0;
     public static double MAX_SHOOTER_SPEED = 6000;
     double shooterSpeed = 3000;
@@ -41,8 +42,8 @@ public class ElijahStrafer extends LinearOpMode {
         rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFrontDrive");
         leftFlywheel = hardwareMap.get(DcMotorEx.class, "leftFlywheel");
         rightFlywheel = hardwareMap.get(DcMotorEx.class, "rightFlywheel");
-        activeIntake = hardwareMap.get(DcMotor.class, "activeIntake");
-
+        rightActiveIntake = hardwareMap.get(DcMotor.class, "rightactiveIntake");
+        leftActiveIntake = hardwareMap.get(DcMotor.class, "rightactiveIntake");
 
 
         /// servos
@@ -56,8 +57,9 @@ public class ElijahStrafer extends LinearOpMode {
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-        activeIntake.setDirection(DcMotorSimple.Direction.FORWARD);
-
+        leftActiveIntake.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightActiveIntake.setDirection(DcMotorSimple.Direction.FORWARD);
+        
         leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -72,13 +74,14 @@ public class ElijahStrafer extends LinearOpMode {
             // This loop runs continuously after START is pressed
              while (opModeIsActive()) {
             //should make active intake start "intaking"
-            activeIntake.setPower(1);
+            leftActiveIntake.setPower(1);
+            rightActiveIntake.setPower(1);
 
             // Get joystick values
             double drive = -gamepad1.left_stick_y;  // Controls forward and backward movement
             double strafe = gamepad1.left_stick_x;   // Controls side-to-side movement
             double turn = gamepad1.right_stick_x;    // Controls turning/rotation
-             double ballRelease = gamepad1.right_trigger;
+            double ballRelease = gamepad1.right_trigger;
 
 
             // shooter wheel power

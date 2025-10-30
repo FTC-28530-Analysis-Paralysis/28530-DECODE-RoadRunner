@@ -10,7 +10,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class Launcher {
+import org.firstinspires.ftc.teamcode.DecodeRi3D;
+
+public class launcher {
 
    private final double FEED_TIME_SECONDS = 0.80; //The feeder servos run this long when a shot is requested.
    private final double STOP_SPEED = 0.0; //We send this power to the servos when we want them to stop.
@@ -36,6 +38,7 @@ public class Launcher {
         LAUNCH,
         LAUNCHING,
     }
+    private LaunchState launchState;
 
     public void init(HardwareMap hwMap) {
 
@@ -45,6 +48,7 @@ public class Launcher {
         rightFeeder = hwMap.get(CRServo.class, "right_feeder");
 
         leftLauncher.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFeeder.setDirection(DcMotorSimple.Direction.REVERSE);
 
         leftLauncher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightLauncher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -55,6 +59,23 @@ public class Launcher {
         leftLauncher.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(300, 0, 0, 10));
         rightLauncher.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(300, 0, 0, 10));
 
+        launchState = LaunchState.IDLE;
+    }
+    public void updateState(){
+        switch(launchState) {
+            case IDLE:
+                break;
+            case SPIN_UP:
+                leftLauncher.setVelocity(LAUNCHER_CLOSE_TARGET_VELOCITY);
+                rightLauncher.setVelocity(LAUNCHER_CLOSE_TARGET_VELOCITY);
+                    if (leftLauncher.getVelocity() >= LAUNCHER_CLOSE_MIN_VELOCITY)
+                        (rightLauncher.getVelocity() >= LAUNCHER_CLOSE_MIN_VELOCITY)
 
+                launchState = LaunchState.LAUNCH;
+
+
+
+        }
     }
-    }
+}
+

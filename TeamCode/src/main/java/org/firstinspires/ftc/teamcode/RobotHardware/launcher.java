@@ -19,7 +19,7 @@ public class launcher {
    private final double FULL_SPEED = 1.0;
 
    private final double LAUNCHER_CLOSE_TARGET_VELOCITY = 1200; //in ticks/second for the close goal.
-   private double LAUNCHER_CLOSE_MIN_VELOCITY = 1175; //minimum required to start a shot for close goal.
+   private final double LAUNCHER_CLOSE_MIN_VELOCITY = 1175; //minimum required to start a shot for close goal.
 
    private final double LAUNCHER_FAR_TARGET_VELOCITY = 1350; //Target velocity for far goal
    private final double LAUNCHER_FAR_MIN_VELOCITY = 1325; //minimum required to start a shot for far goal.
@@ -68,10 +68,15 @@ public class launcher {
             case SPIN_UP:
                 leftLauncher.setVelocity(LAUNCHER_CLOSE_TARGET_VELOCITY);
                 rightLauncher.setVelocity(LAUNCHER_CLOSE_TARGET_VELOCITY);
-                    if (leftLauncher.getVelocity() >= LAUNCHER_CLOSE_MIN_VELOCITY)
-                        (rightLauncher.getVelocity() >= LAUNCHER_CLOSE_MIN_VELOCITY)
+                if (leftLauncher.getVelocity() >= LAUNCHER_CLOSE_MIN_VELOCITY)
+                /// TODO Ask about how to make this line up ///
+                /// (rightLauncher.getVelocity() >= LAUNCHER_CLOSE_MIN_VELOCITY)
 
-                launchState = LaunchState.LAUNCH;
+                    launchState = LaunchState.LAUNCH;
+                break;
+             case LAUNCH:
+
+
 
 
 

@@ -10,9 +10,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.DecodeRi3D;
-
-public class launcher {
+public class Launcher {
 
    private final double FEED_TIME_SECONDS = 0.80; //The feeder servos run this long when a shot is requested.
    private final double STOP_SPEED = 0.0; //We send this power to the servos when we want them to stop.
@@ -35,7 +33,7 @@ public class launcher {
     private enum LaunchState {
         IDLE,
         SPIN_UP,
-        LAUNCH,
+        READY_TO_LAUNCH,
         LAUNCHING,
     }
     private LaunchState launchState;
@@ -68,19 +66,24 @@ public class launcher {
             case SPIN_UP:
                 leftLauncher.setVelocity(LAUNCHER_CLOSE_TARGET_VELOCITY);
                 rightLauncher.setVelocity(LAUNCHER_CLOSE_TARGET_VELOCITY);
-                if (leftLauncher.getVelocity() >= LAUNCHER_CLOSE_MIN_VELOCITY)
-                /// TODO Ask about how to make this line up ///
-                /// (rightLauncher.getVelocity() >= LAUNCHER_CLOSE_MIN_VELOCITY)
-
-                    launchState = LaunchState.LAUNCH;
+                if (leftLauncher.getVelocity() >= LAUNCHER_CLOSE_MIN_VELOCITY && rightLauncher.getVelocity() >= LAUNCHER_CLOSE_MIN_VELOCITY) {
+                    launchState = LaunchState.READY_TO_LAUNCH;
+                }
                 break;
-             case LAUNCH:
-
-
+            case READY_TO_LAUNCH:
+                break;
+            case LAUNCHING:
+                // TODO: Create transfer/feed servo hardware and write logic here to feed ball into launch wheels
+                // TODO: after a few seconds, move to SPIN_UP
 
 
 
         }
+    }
+
+    public void launchNow(){
+        if (launchState == LaunchState.READY_TO_LAUNCH)
+            launchState = LaunchState.LAUNCHING;
     }
 }
 
